@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+<package name="user" namespace="/user" extends="all">
+<!--
+<action name="checklogin" class="myuser.userAction" method="checkLogin"></action>
+	<action name="checkexists" class="myuser.userAction" method="checkExists"></action>
+	<action name="adduser" class="myuser.userAction" method="addUser">
+		<result name="userlist">/UserList.jsp</result>
+</action>
+-->	
+<action name="*" class="myuser.userAction" method="{1}">
+	<result name="userlist">/UserList.jsp</result><!-- 默认容器内跳转，只能在request中访问，可以设置type="redirect" -->
+<!-- 
+
+	<result name="list" type="redirectAction">list</result> 容器内跳转到对应的action代码 
+ -->
+	<result name="modify">/modifyUser.jsp</result><!-- 跳转到相应的容器内页面 -->
+</action>
+</package>
+</struts>

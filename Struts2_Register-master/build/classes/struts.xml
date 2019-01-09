@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+<constant name="struts.devMode" value="true"></constant><!--Struts2的开发者模式： 以后改了action中的代码不需要进行重启 -->
+<constant name="struts.multipart.maxSize" value="10000000"></constant><!-- 控制文件上传的大小 -->
+<package name="all" namespace="*" extends="struts-default">
+	<global-results>
+		<result name="list" type="redirectAction">
+			<param name="namespace">/user</param>
+			<param name="actionName">list</param>
+		</result>
+	</global-results>
+</package>
+<include file="user.xml"></include>
+<include file="picture.xml"></include>
+
+</struts>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查询公告信息</title>
+	<!-- 视口设置 -->
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+	<!-- 引入bootstrap的css文件 -->
+	<link rel="stylesheet" type="text/css" href="js/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet"  type="text/css" href="styles/style.css">
+	<link rel="stylesheet" type="text/css" href="styles/base.css">
+	<link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+	<!-- 网页头部开始 -->
+	<div ng-include="'inc/header.jsp'"></div>
+	<!-- 网页头部结束 -->
+           
+	 <div class="container">	
+	         <!-- 左侧区域开始 -->
+			<div class="col-xs-3">
+				<!-- <div class="col-xs-3 " id="myMenu">        -->
+				<ul class="nav nav-tabs nav-stacked affix-top" data-spy="affix" data-offset-top="380" style=" margin-top:0px;">
+						<li class="active">
+							<a href="QueryNotice.html">公告</a>
+						</li>
+						<li>
+							<a href="QueryArticle.html">经验帖</a>       
+						</li>
+						<li>
+							<a href="AddNotice.html">发布公告</a>       
+						</li>
+				</ul>
+
+			</div>
+		<div class="row">
+			<!-- 左侧区域开始 -->
+			<div class="col-md-3">
+			<!-- 左侧区域结束 -->
+			<!-- 右侧区域开始 -->
+			<div class="panel panel-primary" ng-repeat="item in data">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+										<!-- 基本下拉菜单 -->
+						<div class="dropdown">
+							<button type="button" class="menu" data-toggle="dropdown" style = "display:inline">
+								{{item.noticeHeader}}
+								<span class="caret"></span>
+							</button>	
+							<ul class="dropdown-menu">
+								<li><a href="UpdateNotice.html?noticeId={{item.noticeId}}" class="btn btn-blue btn-xs">修改</a></li>
+								<li><input type="button" value="删除" class="btn btn-blue btn-xs" ng-click="del(item.noticeId);"></li>
+							</ul>
+							<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#{{item.noticeId}}" style = "float:right">折叠/展开</button>
+						</div>
+					</h4>
+				</div>
+				<div id="{{item.noticeId}}" class="panel-collapse collapse in well" >
+					<div class="panel-body">
+						<p>{{item.noticeContent}}</p>
+						<h5>{{item.noticeDate}}</h5>
+					</div>
+				</div>
+			</div>
+		
+				<!-- 数据表结束 -->
+				<!-- 分页工具条开始 -->
+				<nav class="text-center">
+					<ul class="pagination">
+						<li>
+							<a href="#" ng-click="queryByPage(1);">
+								共{{pager.recordCount}}条数据,{{pager.pageNum}}/{{pager.pageCount}}页
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(1);">首页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageNum-1);">上页</a>
+						</li>
+												
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageNum+1);">下页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageCount);">末页</a>
+						</li>
+					</ul>
+				</nav>
+				<!-- 分页工具条结束 -->
+						
+			</div>
+			<!-- 右侧区域结束 -->
+		</div>
+	</div>
+
+
+	<!-- 引入jquery的js文件 -->
+	<script type="text/javascript" src="js/bootstrap/js/jquery.js"></script>
+	<!-- 引入bootstrap的js文件 -->
+	<script type="text/javascript" src="js/bootstrap/js/bootstrap.js"></script>	
+	<!-- 引入angularjs的js文件 -->
+	<script type="text/javascript" src="js/angularjs/angular.js"></script>
+	<!-- 引入layer.js插件 -->
+	<script type="text/javascript" src="js/layer/layer.js"></script>
+	<!-- 引入全局配置js -->
+	<script type="text/javascript" src="js/global.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html ng-app="myApp">
+<meta charset="utf-8" />
+	<head>
+		<title>校内经验分享</title>
+		<meta name="viewport" content="width=device-width initial-scale=1 maximun-scale=1 user-scaleble=no">
+		<script src="js/jquery.js"></script>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="styles/base.css" />
+		<link rel="stylesheet" href="styles/course.css" />
+		<link rel="stylesheet" type="text/css" href="styles/loginstyle.css">
+
+	</head>
+	<body ng-controller="bookController">
+		<div ng-include="'inc/header.jsp'"></div>
+		<!-- 内容部分start -->
+		<div class="container">
+			<!-- 全部课程start -->
+			<div class="route clearfix">
+				<div class="teacher"></div>
+				<h1>全部参考书</h1>
+				<hr />
+				<div class="dir first clearfix">
+					<h4>科目：</h4>
+					<ul>
+						<li class="all current"><a href="QueryBook.html">全部</a></li>
+						<li id="math"><a href="math.html">数学</a></li>
+						<li id="English"><a href="English.html">英语</a></li>
+						<li id="politics"><a href="politics.html">政治</a></li>
+					</ul>
+				</div>
+			    <hr />
+			</div>
+			<p />
+			<!-- 全部课程end -->
+			<!-- 右侧区域开始 -->
+			<div class="col-xs-8">				
+				<!-- 数据表开始 -->
+				<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>参考书编号</th>
+							<th>书名</th>
+							<th>作者</th>
+							<th>难度</th>
+							<th>分类</th>
+							<th>描述</th>
+							<th>所属科目</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- 遍历数据 -->
+						<tr ng-repeat="item in data">
+							<td>{{item.bookId}}</td>
+							<td>{{item.bookName}}</td>
+							<td>{{item.bookWriter}}</td>
+							<td>{{item.bookRank}}</td>
+							<td>{{item.bookClassification}}</td>
+							<td>{{item.bookDescription}}</td>
+							<td>{{item.subjectId}}</td>
+							<td>
+				<!--				<a href="UpdateCourse.html?courseId={{item.courseId}}" class="btn btn-success btn-sm">修改</a>	-->
+								<input type="button" value="删除" class="btn btn-danger btn-sm" ng-click="del(item.bookId);">						
+							</td>
+						</tr>						
+					</tbody>
+				</table>
+
+			<!-- 分页工具条开始 -->
+				<nav class="text-center">
+					<ul class="pagination">
+						<li>
+							<a href="#" ng-click="queryByPage(1);">
+								共{{pager.recordCount}}条数据,{{pager.pageNum}}/{{pager.pageCount}}页
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(1);">首页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageNum-1);">上页</a>
+						</li>
+												
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageNum+1);">下页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageCount);">末页</a>
+						</li>
+					</ul>
+				</nav>
+		     <!-- 分页工具条结束 --> 
+		 
+		     	<div class="col-md-6">
+				<!-- 数据表结束 -->
+					
+				<a href="AddBook.html" class="btn btn-primary btn-block">增加新参考书</a>
+				</div>
+				<div class="col-md-6">
+				<a href="UpdateBook.html" class="btn btn-primary btn-block">修改参考书信息</a>
+					<!-- 导出excel报表 -->
+	<!--			<a href="ExportCourseExcelServlet" class="btn btn-info btn-block">导出excel报表</a>   -->
+				</div>		
+		   </div>
+
+	 </div>
+		</footer>
+		<script src="js/bootstrap.js"></script>
+		<script src="scripts/base.js"></script>
+		<script src="scripts/index.js"></script>
+		<script type="text/javascript">
+
+			// 创建模块
+		var myApp = angular.module('myApp',[]);
+
+		// 创建控制器
+		myApp.controller('bookController',function($scope,$http){
+
+
+			/**
+				分页加载数据
+			*/
+			function getData(pageNum) {
+
+				// 请求地址
+				var url = URL + '/QueryBookServlet';
+
+				// 访问后台数据接口			
+				var promise = $http.get(url,{
+					params:{
+						pageNum:pageNum,
+						pageSize:7
+					}
+				});
+
+				// 请求成功处理
+				promise.success(function(data){
+					// 在作用域中存储数据
+					$scope.data = data.list;
+					$scope.pager = data.pager;
+				});	
+
+				// 请求失败处理
+				promise.error(function(){
+					layer.msg('请求失败');
+				});	
+
+					// 删除数据功能
+				$scope.del = function(bookId) {
+
+					// 删除确认
+					var flag = confirm("你确定要删除此课程吗？");
+
+					if (!flag) {
+						return;
+					}
+
+					// 请求地址
+					var url = URL + '/DelBookServlet';
+					
+					// 访问后台数据接口			
+					var promise = $http.get(url,{
+						params:{
+							bookId:bookId
+						}
+					});
+
+					// 请求成功处理
+					promise.success(function() {
+						alert('删除成功！');
+						location.reload();	//刷新当前网页				
+					});	
+
+					// 请求失败处理
+					promise.error(function(){
+						alert('请求失败');
+					});
+
+				}
+				$scope.show = function(bookId) {
+
+					
+					// 从后台获得科目列表数据
+					var url1 =  URL + '/QuerySubjectServlet';
+
+					var promise1 = $http.get(url1);
+
+					promise1.success(function(data){
+						$scope.jobs = data;		
+						console.log(data);					
+					});
+
+					promise1.error(function(data,status,headers,config) {
+						layer.msg('请求失败' + status);
+					});
+					
+					// 请求地址
+					var url = URL + '/GetBookServlet';
+					// post请求的快捷方法
+					var promise = $http.get(url,{					
+						params:{
+							bookId:bookId
+						}					
+					});
+
+					promise.success(function(data){
+						console.log(data);
+						// 绑定数据
+						$scope.bookName = data.bookName;
+						$scope.bookWriter = data.bookWriter;
+						$scope.bookRank = data.bookRank;
+						$scope.bookClassification = data.bookClassification;
+						$scope.bookDescription = data.bookDescription;
+						$scope.subjectName = data.subject.subjectName;
+						$scope.bookId = data.bookId;
+					});
+
+					promise.error(function(data,status,headers,config) {
+						alert('请求失败' + status);
+					});	
+				}
+
+			}	
+
+			// 初始化第一页数据
+			getData(1);
+
+			// 分页查询
+			$scope.queryByPage = function(pageNum) {
+				getData(pageNum);
+			}
+
+		});
+	</script>
+	</body>
+</html>

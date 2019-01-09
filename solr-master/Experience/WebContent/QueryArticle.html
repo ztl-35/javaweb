@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查询经验帖信息</title>
+	<!-- 视口设置 -->
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+	<!-- 引入bootstrap的css文件 -->
+	<link rel="stylesheet" type="text/css" href="js/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet"  type="text/css" href="styles/style.css">
+	<link rel="stylesheet" type="text/css" href="styles/base.css">
+	<link rel="stylesheet" href="styles/index.css">
+	<!-- 引入jquery的js文件 -->
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<!-- 引入angularjs的js文件 -->
+	<script type="text/javascript" src="js/angularjs/angular.js"></script>
+	<!-- 引入layer.js插件 -->
+	<script type="text/javascript" src="js/layer/layer.js"></script>
+	<!-- 引入全局配置js -->
+	<script type="text/javascript" src="js/global.js"></script>
+</head>
+<body>
+	<!-- 网页头部开始 -->
+	<div ng-include="'inc/header.jsp'"></div>
+	<!-- 网页头部结束 -->
+
+        <!-- 左侧区域开始 -->
+			<div class="col-xs-3">
+				<!-- <div class="col-xs-3 " id="myMenu">        -->
+				<ul class="nav nav-tabs nav-stacked affix-top" data-spy="affix" data-offset-top="380" style=" margin-top:0px;">
+						<li class="active">
+							<a href="http://localhost:8080/Experience/QueryNoticeServlet">公告</a>
+						</li>
+						<li>
+							<a href="QueryArticle.html">经验帖</a>       
+						</li>
+				</ul>
+	
+			</div>
+			<!-- 左侧区域结束 -->
+           
+	 <div class="container">		
+		<div class="row">			
+			<!-- 左侧区域开始 -->
+			<div class="col-md-3">
+				
+			</div>
+			<!-- 左侧区域结束 -->
+			<!-- 右侧区域开始 -->
+<!--			<a href="AddArticle.html" class="add">发布经验帖</a>	-->
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<!-- 基本下拉菜单 -->
+						<div class="dropdown">
+							<button type="button" class="menu" data-toggle="dropdown" style = "display:inline">
+								{{item.articleHeader}}
+								<span class="caret"></span>
+							</button>	
+							<ul class="dropdown-menu">
+								<li><a href="UpdateArticle.html?articleId={{item.articleId}}" class="btn btn-blue btn-xs">修改</a></li>
+								<li><input type="button" value="删除" class="btn btn-blue btn-xs" ng-click="del(item.articleId);"></li>
+							</ul>
+							<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#{{item.articleId}}" style = "float:right">查看文章/收起全文</button>
+						</div>
+					</h4>
+				</div>
+				<div id="{{item.articleId}}" class="panel-collapse collapse in well" >
+					<div class="panel-body">
+						<p>{{item.articleTitle}}</p>
+						<p>{{item.aticleContent}}</p>
+						<h5>{{item.articleDate}}</h5>
+					</div>
+				</div>
+				<a href="AddArticle.html" class="add">分享我的经验</a>
+			</div>
+		
+				<!-- 数据表结束 -->
+				<!-- 分页工具条开始 -->
+				<nav class="text-center">
+					<ul class="pagination">
+						<li>
+							<a href="#" ng-click="queryByPage(1);">
+								共{{pager.recordCount}}条数据,{{pager.pageNum}}/{{pager.pageCount}}页
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(1);">首页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageNum-1);">上页</a>
+						</li>
+												
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageNum+1);">下页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" ng-click="queryByPage(pager.pageCount);">末页</a>
+						</li>
+					</ul>
+				</nav>
+				<!-- 分页工具条结束 -->
+						
+			</div>
+			<!-- 右侧区域结束 -->
+		</div>
+	</div>
+
+	
+	
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>增加课程</title>
+	<!-- 视口设置 -->
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+	<!-- 引入bootstrap的css文件 -->
+	<link rel="stylesheet" type="text/css" href="js/bootstrap/css/bootstrap.css">
+	<!-- 引入datepicker插件css -->
+	<link rel="stylesheet" type="text/css" href="js/datepicker/jquery.datetimepicker.css">
+</head>
+<!-- 引入jquery的js文件 -->
+	<script type="text/javascript" src="js/bootstrap/js/jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".submit").on("click",function(e){
+	    $.ajax({
+	        url:"http://localhost:8080/Experience/AddCourseServlet",
+	        type:"get",
+	        datatype:"json",
+	        data:{
+	            "courseName":$("input[name='courseName']").val(),
+	            "courseCredit":$("input[name='courseCredit']").val(),
+	            "courseTeacher":$("input[name='courseTeacher']").val(),
+	            "courseAddress":$("input[name='courseAddress']").val(),
+	            "courseTime":$("input[name='courseTime']").val(),
+	            "courseLong":$("input[name='courseLong']").val(),
+	            "courseFeature":$("input[name='courseFeature']").val(),
+	            "courseType":$("input[name='courseType']").val(),
+	        },
+	        success:function(msg){
+	            if(msg){
+	                alert("更新成功");
+	                location.href="http://localhost:8080/Experience/NewQueryCourse.jsp";
+	            }
+	            else{
+	                alert("更新失败");
+	            }
+	        }
+	    });
+	});
+}); 
+</script>
+<body>
+		
+	<!-- 网页头部开始 -->
+<!-- 	<div ng-include="'inc/header.jsp'"></div> -->
+	<!-- 网页头部结束 -->
+
+	<div class="container">		
+		<div class="row">			
+			<!-- 左侧区域开始 -->
+			<div class="col-md-3">				
+			</div>
+			<!-- 左侧区域结束 -->
+			<!-- 右侧区域开始 -->
+			<div class="col-md-8">
+				<h3 class="page-header">增加课程信息</h3>
+				<!-- 表单开始 -->
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="" class="col-sm-2">课程名</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入课程名" name="courseName" class="form-control" ng-model="courseName">
+						</div>				
+					</div>
+					<div class="form-group">
+						<label for="" class="col-sm-2">学分</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入学分" name="courseCredit" class="form-control" ng-model="courseCredit">
+						</div>				
+					</div>	
+					<div class="form-group">
+						<label for="" class="col-sm-2">任教老师</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入老师姓名" name="courseTeacher" class="form-control" ng-model="courseTeacher">
+						</div>				
+					</div>	
+					<div class="form-group">
+						<label for="" class="col-sm-2">上课地址</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入教室" name="courseAddress" class="form-control" ng-model="courseAdd">
+						</div>				
+					</div>	
+					<div class="form-group">
+						<label for="" class="col-sm-2">上课时间</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入上课时间" name="courseTime" class="form-control" ng-model="courseTime">
+						</div>				
+					</div>	
+					<div class="form-group">
+						<label for="" class="col-sm-2">周次</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入周次" name="courseLong" class="form-control" ng-model="courseLong">
+						</div>				
+					</div>	
+					<div class="form-group">
+						<label for="" class="col-sm-2">课程属性</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入课程属性" name="courseFeature" class="form-control" ng-model="courseFeature">
+						</div>				
+					</div>	
+					<div class="form-group">
+						<label for="" class="col-sm-2">考试类型</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="请输入考试类型" name="courseType" class="form-control" ng-model="courseType">
+						</div>				
+					</div>	
+					<div class="form-group">				
+						<div class="col-sm-8 col-sm-offset-2">
+							<input type="button" value="增加课程信息" class="submit"">
+						</div>				
+					</div>
+				</form>
+				<!-- 表单结束 -->
+			</div>
+			<!-- 右侧区域结束 -->
+		</div>
+	</div>
+
+	<!-- 网页底部开始 -->
+<!--	<div ng-include="'inc/footer.html'"></div>
+	<!-- 网页底部结束 -->	
+	
+	<!-- 引入jquery的js文件 -->
+	<script type="text/javascript" src="js/bootstrap/js/jquery.js"></script>
+	<!-- 引入bootstrap的js文件 -->
+	<script type="text/javascript" src="js/bootstrap/js/bootstrap.js"></script>	
+	<!-- 引入angularjs的js文件 -->
+	<script type="text/javascript" src="js/angularjs/angular.js"></script>
+	<!-- 引入layer.js插件 -->
+	<script type="text/javascript" src="js/layer/layer.js"></script>
+	<!-- 引入全局配置js -->
+	<script type="text/javascript" src="js/global.js"></script>
+	<!-- 引入datepicker插件js -->
+	<script type="text/javascript" src="js/datepicker/jquery.datetimepicker.js"></script>
+</body>
+</html>
+

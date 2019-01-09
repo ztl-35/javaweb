@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/tx
+  		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+        
+<!--  	
+		这是bean的spring 装载和注入的方式
+        <bean id="dao" class="edu.sxu.dao.UserDaoImpl.userDaoFileImpl"
+        	scope="singleton" init-method="start" destroy-method="end">
+        </bean>
+        <bean id="service" class="edu.sxu.service.userService.UserSericeImpl">
+        	<constructor-arg name="dao" ref="dao"></constructor-arg>
+        </bean>
+-->
+
+		<!-- 利用注解方式完成上述bean的功能  -->
+		<context:annotation-config/>
+		<context:component-scan base-package="edu.sxu.dao.UserDaoImpl,edu.sxu.dao.AlbumDaoImpl,edu.sxu.service.albumServiceImpl,edu.sxu.service.userServiceImpl,edu.sxu.aop"/>
+		
+		<!-- 利用切面编程的方式   自动代理（注解的方法） -->
+		<aop:aspectj-autoproxy/>
+		<aop:config>
+			<aop:pointcut expression="execution(* edu.sxu.service.userServiceImpl.*.*(..))" id="mypt"/>
+			<!-- 这个切面相当于是程序员自己编写的一个切面 按照程序员自己的实现方式来写一个log类      后面的数据库操作是已经定义好的方法，会有限制-->
+			<aop:aspect ref="log">
+				<aop:before method="mybefore" pointcut-ref="mypt"/>
+				<aop:after-returning method="myend" pointcut-ref="mypt"/>
+			</aop:aspect>
+		</aop:config>
+		
+		<!-- hibernare 和  spring整合的步骤 -->
+		<!--1、 配置数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <!-- 初始化连接数量； -->
+        <property name="initialSize" value="0" />
+        <!-- 最大并发连接数 -->
+        <property name="maxActive" value="20" />
+        <!-- 最大空闲连接数 -->
+        <property name="maxIdle" value="20" />
+        <!-- 最小空闲连接数 -->
+        <property name="minIdle" value="0" />
+        <!-- 最大等待时长 -->
+        <property name="maxWait" value="60000" />
+        <!-- 超过时间限制是否回收 -->
+        <property name="removeAbandoned" value="true" />
+        <!-- 超过时间限制多长； -->
+        <property name="removeAbandonedTimeout" value="180"/>     
+          
+          
+        <!-- 数据源连接参数配置； 使用占位符的方式-->
+
+       	<property name="username" value="${db.username}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="driverClassName" value="${db.driverClassName}"/> 
+    </bean> 
+    
+    <!-- 2、读取外部属性文件，获取数据源参数 -->
+    <context:property-placeholder location="classpath:DataSource.properties"/>
+    
+    <!-- 3、配置SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 这是相当于hibernate配置里面的mapping 从类映射成数据库表 -->
+        <property name="packagesToScan" value="edu.sxu.model"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!--4、 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+	<!--5 初始化hibernateTemplate 下面的id是和dao层交互使用的名称要对应 -->    
+  	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+   		<property name="sessionFactory" ref="sessionFactory"></property>
+  	</bean>
+    
+    
+    <!-- 6 配置事务管理 -->
+    	<!--
+    		<aop:config> 先这么理解：  
+    	-->
+	    <!-- 定义切面配置说明 -->
+	    <aop:config>
+	    	<!-- 定义一个切入点 -->
+	        <aop:pointcut expression="execution(* edu.sxu.service.userServiceImpl.*.*(..))" id="txPointCut"/>
+	        <!-- 这里相当于是是定义切面 增加附加功能   但是这个功能是库已经实现好了，只能使用库里面的切面 可以对比上面自己写的aop-->
+	        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+	    </aop:config>
+	    <!-- 声明式事务 -->
+	    <tx:advice id="txAdvice" transaction-manager="transactionManager">   
+	    	<!-- 上面定义的切面功能是在这里声明定义的，具体程序的编写已经交给了transactionManager 会有包对应 -->         
+	        <tx:attributes>
+	        	<!--只要我们的上面定义的切入点包中方法名包含如下的格式   就会开启数据库的事务：例如提交，终止关闭连接  -->
+		      <tx:method name="add*" propagation="REQUIRED"/>
+		      <tx:method name="get*" read-only="true" propagation="REQUIRED"/>
+		      <tx:method name="check*" read-only="true" propagation="REQUIRED"/>
+	        </tx:attributes>  
+	    </tx:advice>
+	    
+	    <aop:config>
+	        <aop:pointcut expression="execution(* edu.sxu.service.albumServiceImpl.*.*(..))" id="txPointCut_1"/>
+	        <aop:advisor advice-ref="txAdvice_1" pointcut-ref="txPointCut_1"/>
+	    </aop:config>
+	    <tx:advice id="txAdvice_1" transaction-manager="transactionManager">   
+	        <tx:attributes>
+		      <tx:method name="add*" propagation="REQUIRED"/>
+	        </tx:attributes>        
+	    </tx:advice>
+</beans>

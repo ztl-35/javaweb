@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 需要把这个开发模式设置为true，不然跳转可能出错 -->
+ 	<constant name="struts.devMode" value="true" />
+ 	<constant name="struts.multipart.maxSize" value="10485760"></constant>
+	<include file="user.xml"></include>
+	<include file="album.xml"></include>
+    <package name="all" namespace="/" extends="struts-default">
+    	<global-results>
+    		<result name="main">/main.jsp</result>
+    	</global-results>
+    </package>
+</struts>

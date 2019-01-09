@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="javastudy.student_contacter.StudentMapper">
+	<insert id="add" parameterType="javastudy.student_contacter.Student" useGeneratedKeys="true" keyProperty="id">
+		insert into student (name,sex,pwd,phone,grade,photo) values (#{name},#{sex},#{pwd},#{phone},#{grade},#{photo})
+	</insert>
+	<select id="get" parameterType="int" resultMap="student"><!-- resultType="javastudy.Student"因为返回的类型是student、contacter两种，这样写是不行的 -->
+		select
+			s.id sid,s.name sname,s.sex ssex,s.pwd spwd,s.phone sphone,s.grade sgrade,s.photo sphoto,
+			c.id cid,c.name cname,c.sex csex,c.relation crelation,c.phone cphone
+		from student s
+    	left join
+			contacter c 
+		on
+			c.sid=s.id
+		where s.id=#{id}
+	</select>
+	<resultMap type="javastudy.student_contacter.Student" id="student">
+		<id property="id" column="sid"/>
+		<result property="sex" column="ssex"/>
+		<result property="name" column="sname"/>
+		<result property="pwd" column="spwd"/>
+		<result property="phone" column="sphone"/>
+		<result property="grade" column="sgrade"/>
+		<result property="photo" column="sphoto"/>
+		<association property="contacter" javaType="javastudy.student_contacter.Contacter">
+			<id property="id" column="cid"/>
+			<result property="name" column="cname"/>
+			<result property="sex" column="csex"/>
+			<result property="relation" column="crelation"/>
+			<result property="phone" column="cphone"/>
+		</association>
+	</resultMap>
+	<delete id="delete">
+		delete from student where id=#{id}
+	</delete>
+</mapper>

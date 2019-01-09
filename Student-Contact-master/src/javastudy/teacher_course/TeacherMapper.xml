@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="javastudy.teacher_course.TeacherMapper">
+	<insert id="add" parameterType="javastudy.teacher_course.Teacher" useGeneratedKeys="true" keyProperty="id">
+		insert into teacher (name,sex,phone) values(#{name},#{sex},#{phone})
+	</insert>
+	<select id="get" resultMap="teacher">
+		select
+			t.id tid,
+			t.name tname,
+			t.sex tsex,
+			t.phone tphone,
+			c.name cname,
+			c.hours chours,
+			c.type ctype,
+			c.id cid
+		from
+			teacher t
+		left join
+			course c
+		on
+		    t.id = c.tid
+		where
+			t.id=#{id}
+	</select>
+	<resultMap type="javastudy.teacher_course.Teacher" id="teacher">
+		<id property="id" column="tid"/>
+		<result property="name" column="tname"/>
+		<result property="sex" column="tsex"/>
+		<result property="phone" column="tphone"/>
+		<collection property="courses" ofType="javastudy.teacher_course.Course">
+			<id property="id" column="cid"/>
+			<result property="name" column="cname"/>
+			<result property="hours" column="chours"/>
+			<result property="type" column="ctype"/>
+		</collection>
+	</resultMap>
+</mapper>

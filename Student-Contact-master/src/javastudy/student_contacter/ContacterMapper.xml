@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="javastudy.student_contacter.ContacterMapper">
+	<insert id="add" parameterType="javastudy.student_contacter.Contacter">
+		insert into Contacter (name,sex,relation,phone,sid) values(#{name},#{sex},#{relation},#{phone},#{student.id})
+	</insert>
+	<select id="get" parameterType="int" resultMap="contacter">
+		select
+			c.id cid,
+			c.name cname,
+			c.sex csex,
+			c.relation crelation,
+			c.phone cphone,
+			s.id sid,
+			s.name sname,
+			s.sex ssex,
+			s.pwd spwd,
+			s.phone sphone,
+			s.grade sgrade,
+			s.photo sphoto
+		from student s,contacter c 
+		where c.id=#{id} and c.sid=s.id
+	</select>
+	<resultMap type="javastudy.student_contacter.Contacter" id="contacter">
+		<id property="id" column="cid"/>
+			<result property="name" column="cname"/>
+			<result property="sex" column="csex"/>
+			<result property="relation" column="crelation"/>
+			<result property="phone" column="cphone"/>
+		<association property="student" javaType="javastudy.student_contacter.Student">
+			<id property="id" column="sid"/>
+			<result property="sex" column="ssex"/>
+			<result property="name" column="sname"/>
+			<result property="pwd" column="spwd"/>
+			<result property="phone" column="sphone"/>
+			<result property="grade" column="sgrade"/>
+			<result property="photo" column="sphoto"/>
+		</association>
+	</resultMap>
+	<delete id="delete" parameterType="int">
+		delete from contacter where id=#{id}
+	</delete>
+	<update id="update" parameterType="javastudy.student_contacter.Contacter">
+		update contacter set sid=#{student.id} where id=#{id}
+	</update>
+</mapper>

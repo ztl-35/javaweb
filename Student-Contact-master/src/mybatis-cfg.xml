@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration  
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">  
+<configuration>
+	<!-- 配置文件中数据库占位符的数据，到下面这个文件资源中进行读入配置 -->
+	<properties resource="db.properties"></properties>
+    <!-- 对事务的管理和连接池的配置 -->  
+    <environments default="development">  
+        <environment id="user">
+            <transactionManager type="JDBC" />  
+            <dataSource type="POOLED">  
+                <property name="driver" value="${db.driver}" />  
+                <property name="url" value="${db.url}" />  
+                <property name="username" value="${db.user}" />  
+                <property name="password" value="${db.password}" />  
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <!-- 数据库中定义了哪些操作需要进行说明 将其mapper到-->
+    <mappers>
+		<mapper resource="javastudy/student_contacter/StudentMapper.xml"/>
+		<mapper resource="javastudy/student_contacter/ContacterMapper.xml"/>
+		<mapper resource="javastudy/teacher_course/CourseMapper.xml"/>
+		<mapper resource="javastudy/teacher_course/TeacherMapper.xml"/>
+		<mapper resource="javastudy/student_course/StudentMapper.xml"/>
+		<mapper resource="javastudy/student_course/CourseMapper.xml"/>
+		<mapper resource="javastudy/student_course/student_courseMapper.xml"/>
+    </mappers>  
+</configuration>

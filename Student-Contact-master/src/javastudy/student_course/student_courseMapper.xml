@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="javastudy.student_course.student_courseMapper">
+	<insert id="add" parameterType="javastudy.student_course.student_course">
+		insert into student_course (sid,cid) values (#{student.id},#{course.id})
+	</insert>
+	<delete id="delete" parameterType="javastudy.student_course.student_course">
+		delete from student_course where sid=#{student.id} and cid=#{course.id}
+	</delete>
+</mapper>

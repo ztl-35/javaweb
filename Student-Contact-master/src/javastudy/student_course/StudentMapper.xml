@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="javastudy.student_course.StudentMapper">
+	<select id="get" resultMap="student" parameterType="int">
+		select
+			sid,sname,ssex,spwd,sphone,sphoto,sgrade,sccid,
+			c.name cname,
+			c.hours chours,
+			c.type ctype
+		from
+		(
+			select
+				s.id sid,
+				s.name sname,
+				s.sex ssex,
+				s.pwd spwd,
+				s.phone sphone,
+				s.photo sphoto,
+				s.grade sgrade,
+				sc.cid sccid
+			from
+				student s
+			left join
+				student_course sc
+			on
+				s.id=sc.sid
+			where
+				s.id=#{id}
+		)temp
+		left join
+			course c
+		on
+			sccid=c.id
+	</select>
+	<resultMap type="javastudy.student_course.Student" id="student">
+		<id property="id" column="sid"/>
+		<result property="name" column="sname"/>
+		<result property="sex" column="ssex"/>
+		<result property="pwd" column="spwd"/>
+		<result property="phone" column="sphone"/>
+		<result property="photo" column="sphoto"/>
+		<result property="grade" column="sgrade"/>
+		<collection property="courses" ofType="javastudy.student_course.Course">
+			<id property="id" column="sccid"/>
+			<result property="name" column="cname"/>
+			<result property="type" column="ctype"/>
+			<result property="hours" column="chours"/>
+		</collection>
+	</resultMap>
+</mapper>

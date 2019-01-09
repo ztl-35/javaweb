@@ -1,0 +1,160 @@
+﻿
+/*导航栏开始*/
+
+.currentPage {
+	background-color: #444;
+}
+
+nav {
+	height: 58px;
+	font-size: 14px;
+}
+
+nav ul,nav ul li,nav div{
+	display: inline-block;
+}
+
+.logo {
+	width: 120px;
+	height: 38px;
+	float: left;
+	margin: 10px;
+}
+
+.logo a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: url(../imgs/logo.png) no-repeat;
+       }
+
+#nav-collapse {
+        margin-left: 125px;
+        padding-right: 130px;
+        width: 100%;
+    }
+
+nav form {
+        display: inline-block;
+    }
+
+nav li a {
+        display: block;
+        height: 58px;
+        line-height: 58px;
+    }
+
+.user {
+        margin: 10px 0;
+        float: right;
+    }
+
+.user button, .user form input {
+        padding: 8px;
+        border-radius: 5px;
+    }
+
+.user button {
+        color: #fff;
+    }
+
+.loginBtn {
+        background: #DB70DB;
+    }
+
+.signinBtn {
+        background: #93DB70;
+    }
+
+.logoutBtn {
+        background: #ff0000;
+        display: none;
+    }
+
+form input {
+        width: 150px;
+        height: 38px;
+    }
+
+form button {
+        background: #70DB93;
+    }
+
+.username {
+        font-size: 20px;
+        line-height: 30px;
+    }
+/*导航栏结束*/
+
+/*footer部分start*/
+    footer {
+        width: 100%;
+        height: 100px;
+        background-color: #000;
+        color: #ccc;
+    }
+    footer .footer-left {
+        float: left;
+        margin: 10px 0 0 200px;
+        text-align: center;
+    }
+    .footer-left li {
+        color: #ccc;
+        display: inline-block;
+        font-size: 12px;
+        line-height: 24px;
+        margin: 12px;
+    }
+    .footer-left a {
+        color: #ccc;
+    }
+    .footer-left a:hover {
+        color: #fff;
+    }
+    footer p {
+        color: #aaa;
+    }
+
+    footer .footer-right {
+        float: right;
+        margin: 25px 150px;
+    }
+    .footer-right a {
+        display: block;
+        width: 33px;
+        height: 33px;
+        float: left;
+        margin: 5px;
+        background: url(../imgs/footer-sprite.png);
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+        /*使渐变为不透明*/
+        transition: all 0.3s;
+    }
+    .footer-right a:hover {
+        opacity: 1;
+        filter: alpha(opacity=50);
+    }
+    .footer-right .way1 {
+        position: relative;
+        background-position: 0 -278px;
+    }
+    .footer-right .way2 {
+        background-position: 0 -320px;
+    }
+    .footer-right .way3 {
+        background-position: 0 -362px;
+    }
+    .footer-right .way1 div {
+        width: 170px;
+        height: 220px;
+        position: absolute;
+        top: -232px;
+        left: -70px;
+        overflow: hidden;
+        display: none;
+    }
+    .footer-right .way1:hover div {
+        display: block;
+    }
+/*footer部分end*/

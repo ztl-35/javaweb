@@ -1,0 +1,110 @@
+/*轮播图部分start*/
+    .slider {
+        width: 100%;
+        height: 600px;
+        position: relative;
+        margin-top: 58px;
+        overflow: hidden;
+    }
+
+    .slider .button a {
+        background: rgba(0, 0, 0, 0); 
+    }
+
+    .slider:hover .button a {
+        background: rgba(0, 0, 0, 0.1); 
+    }
+
+    .slider .button a:hover {
+        background: rgba(0, 0, 0, 0.5); 
+    }
+
+    .slider .bigImgs {
+        position: relative;
+    }
+
+    .slider .bigImgs li {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -1000px;
+        display: none;
+    }
+
+    /*图片适应屏幕*/
+   .slider .bigImgs img {
+        width: 100%;
+    }
+
+    .slider .point {
+        height: 22px;
+        padding: 0 10px 0 0;
+        background-color: rgba(225, 225, 225, 0.5);
+        filter: alpha(opacity: 50);
+        position: absolute;
+        bottom: 6px;
+        left: 50%;
+        border-radius: 10px;
+        margin-left: -50px;
+    }
+
+    .slider .point li {
+        float: left; 
+        color: #FFFFFF;
+        width: 12px;
+        height: 12px;
+        text-align: center;
+        margin: 5px;
+        background-color: #fff;
+        border-radius: 10px;
+        margin-left: 14px;
+    }
+
+    .slider .point li:hover {
+        cursor: pointer;
+        background-color: #C81623;
+    }
+
+    .slider .point .current { /*通过js控制方便*/
+        cursor: pointer;
+        background-color: #C81623;
+    }
+/*轮播图部分end*/
+
+/*右箭头start*/
+    .go {
+        font-family: "SimSun";
+    }
+/*右箭头end*/
+
+/*左右按钮start*/
+    .button {
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        margin-top: -30px;
+    }
+
+    .button a {
+        display: inline-block;
+        font-size: 30px;
+        text-align: center;
+        color: #fff;
+        width: 28px;
+        height: 62px;
+        line-height: 62px;
+        background: rgba(0, 0, 0, 0.3); 
+    }
+
+    .button .button1 {
+        float: left;
+    }
+
+    .button .button2 {
+        float: right;
+    }
+
+    .button a:hover {
+        background: rgba(0, 0, 0, 0.5); 
+    }
+/*左右按钮end*/

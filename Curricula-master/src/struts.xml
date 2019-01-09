@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+   <constant name="struts.devMode" value="true" />
+   <include file="room.xml"></include>
+   <include file="student.xml"></include>
+   <include file="contact.xml"></include>
+   <include file="teacher.xml"></include>
+   <include file="course.xml"></include>
+   <include file="init.xml"></include>
+   <package name="all" namespace="/" extends="struts-default">
+   	<interceptors>
+   		<interceptor-stack name="mystack">
+   			<interceptor-ref name="tokenSession">
+				<param name="includeMethods">update</param>
+   			</interceptor-ref>
+   			 <interceptor-ref name="defaultStack"/>          
+   		</interceptor-stack>
+   	</interceptors>
+   	<default-interceptor-ref name="mystack"></default-interceptor-ref>
+   	<global-results>
+   		<result name="Main">/Main.jsp</result>
+   	</global-results>
+   </package>
+</struts>

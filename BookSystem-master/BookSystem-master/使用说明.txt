@@ -1,0 +1,5 @@
+﻿这是一个Javaweb小程序
+1、使用的是j2ee开发
+2、Book.java 是一个图书的JavaBean
+3、BookDAO.java是一个数据库访问接口文件
+4、其他三个是对应于JSP文件的servlet文件
